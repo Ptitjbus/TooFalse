@@ -3,18 +3,21 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Category>
  */
-class CategorieRepository extends ServiceEntityRepository
+class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
     }
+
+    // Version alternative plus performante
 
     //    /**
     //     * @return Category[] Returns an array of Category objects

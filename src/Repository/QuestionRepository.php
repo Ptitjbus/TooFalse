@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,30 @@ class QuestionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Question::class);
+    }
+
+    public function findRandomQuestionByCategory(Category $category): ?Question
+    {
+        $count = $this->createQueryBuilder('q')
+            ->select('COUNT(q.id)')
+            ->andWhere('q.category = :cat')
+            ->setParameter('cat', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        if ($count === 0) {
+            return null;
+        }
+
+        $offset = rand(0, $count - 1);
+
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.category = :cat')
+            ->setParameter('cat', $category)
+            ->setFirstResult($offset)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**

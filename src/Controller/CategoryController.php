@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategorieType;
-use App\Repository\CategorieRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CategoryController extends AbstractController
 {
     #[Route('/categories', name: 'app_category_index', methods: ['GET'])]
-    public function index(CategorieRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
@@ -22,16 +23,20 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/categories/{id}', name: 'app_category_show', methods: ['GET'])]
-    public function categoryShow(Category $category,CategorieRepository $categoryRepository): Response
+    public function categoryShow(Category $category, QuestionRepository $questionRepository): Response
     {
+        // get random question from the category
+        $question = $questionRepository->findRandomQuestionByCategory($category);
+
         return $this->render('category/show.html.twig', [
             'category' => $category,
+            'question' => $question,
         ]);
     }
 
     #[Route('/admin/categories', name: 'app_category_admin', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function adminIndex(CategorieRepository $categoryRepository): Response
+    public function adminIndex(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/admin.html.twig', [
             'categories' => $categoryRepository->findAll(),

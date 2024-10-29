@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CategorieRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategorieRepository::class)]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
     #[ORM\Id]
@@ -58,7 +58,7 @@ class Category
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
-            $question->setCategorie($this);
+            $question->setCategory($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Category
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
-            if ($question->getCategorie() === $this) {
-                $question->setCategorie(null);
+            if ($question->getCategory() === $this) {
+                $question->setCategory(null);
             }
         }
 

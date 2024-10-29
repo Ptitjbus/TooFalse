@@ -7,7 +7,13 @@
 
     <div class="grid gap-4">
         <div class="p-4 border rounded">
-            {# Ajoutez d'autres champs de votre catégorie ici #}
+            <h2 class="font-bold">{{ question.content }}</h2>
+            <ul>
+                {% for answer in question.answers %}
+                    <li>{{ answer.content }}</li>
+                {% endfor %}
+            </ul>
+
         </div>
     </div>
 {% endblock %}
