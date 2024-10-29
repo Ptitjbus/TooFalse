@@ -28,7 +28,7 @@ class Question
     private ?Answer $correctAnswer = null;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
-    private ?Categorie $categorie = null;
+    private ?Category $categorie = null;
 
     public function __construct()
     {
@@ -94,14 +94,14 @@ class Question
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    public function getCategory(): ?Category
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    public function setCategory(?Category $category): static
     {
-        $this->categorie = $categorie;
+        $this->categorie = $category;
 
         return $this;
     }
