@@ -21,6 +21,14 @@ final class CategoryController extends AbstractController
         ]);
     }
 
+    #[Route('/categories/{id}', name: 'app_category_show', methods: ['GET'])]
+    public function categoryShow(Category $category,CategorieRepository $categoryRepository): Response
+    {
+        return $this->render('category/show.html.twig', [
+            'category' => $category,
+        ]);
+    }
+
     #[Route('/admin/categories', name: 'app_category_admin', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function adminIndex(CategorieRepository $categoryRepository): Response
