@@ -3,17 +3,71 @@
 {% block title %}Catégories{% endblock %}
 
 {% block body %}
-    <h1>{{ category.name }}</h1>
-
-    <div class="grid gap-4">
-        <div class="p-4 border rounded">
-            <h2 class="font-bold">{{ question.content }}</h2>
-            <ul>
+    <div class="w-full min-h-[500px] flex flex-col items-center justify-center">
+        <div class="p-4 border">
+            <h2 class="font-bold mb-5">{{ question.content }}</h2>
+            <ul class="flex flex-col gap-3">
                 {% for answer in question.answers %}
-                    <li>{{ answer.content }}</li>
+                    <li>
+                        <button
+                                class="answer-btn w-full text-start rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300"
+                                data-answer-id="{{ answer.id }}"
+                        >
+                            {{ answer.content }}
+                        </button>
+                    </li>
                 {% endfor %}
             </ul>
-
+            <div id="correctAnswer" class="hidden flex gap-5 items-center justify-center px-4 py-2 bg-green-200 rounded border border-green-300 mt-5">
+                Bonne réponse !
+                <a class="w-fit bg-white items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300" href="{{ path('app_category_show', {'id': category.id}) }}">
+                    Question suivante
+                </a>
+            </div>
+            <div id="wrongAnswer" class="hidden flex gap-5 items-center justify-center px-4 py-2 bg-red-200 rounded border border-red-300 mt-5">
+                Mauvaise réponse :(
+                <a class="w-fit bg-white items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300" href="{{ path('app_category_show', {'id': category.id}) }}">
+                    Question suivante
+                </a>
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const correctAnswerId = {{ question.correctAnswer.id }};
+            const correctAnswerDiv = document.getElementById('correctAnswer');
+            const wrongAnswerDiv = document.getElementById('wrongAnswer');
+            const answerButtons = document.querySelectorAll('.answer-btn');
+
+            function showResult(isCorrect) {
+                // Désactiver tous les boutons
+                answerButtons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('opacity-50');
+                });
+
+                // Afficher l'alerte appropriée
+                if (isCorrect) {
+                    correctAnswerDiv.classList.remove('hidden');
+                    wrongAnswerDiv.classList.add('hidden');
+                } else {
+                    wrongAnswerDiv.classList.remove('hidden');
+                    correctAnswerDiv.classList.add('hidden');
+                }
+            }
+
+            // Ajouter les écouteurs d'événements aux boutons
+            answerButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const answerId = parseInt(this.dataset.answerId);
+                    const isCorrect = answerId === correctAnswerId;
+                    showResult(isCorrect);
+                });
+            });
+        });
+    </script>
 {% endblock %}

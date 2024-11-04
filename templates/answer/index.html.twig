@@ -3,33 +3,52 @@
 {% block title %}Answer index{% endblock %}
 
 {% block body %}
-    <h1>Answer index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Content</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for answer in answers %}
-            <tr>
-                <td>{{ answer.id }}</td>
-                <td>{{ answer.content }}</td>
-                <td>
-                    <a href="{{ path('app_answer_show', {'id': answer.id}) }}">show</a>
-                    <a href="{{ path('app_answer_edit', {'id': answer.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="flex items-end w-full justify-between px-5 lg:px-40 my-5">
+        <h1 class="text-2xl">Administration des réponses</h1>
 
-    <a href="{{ path('app_answer_new') }}">Create new</a>
+        <a href="{{ path('app_answer_new') }}" class="w-fit items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300">Créer une nouvelle réponse</a>
+    </div>
+
+    <div class="relative overflow-x-auto px-5 lg:px-40">
+        <table class="w-full text-sm text-left rtl:text-right text-slate-500 rounded">
+            <thead class="text-xs text-gray-700 uppercase bg-slate-100">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Content
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Actions
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for answer in answers %}
+                <tr class="bg-white border-b ">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                        {{ answer.id }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ answer.content }}
+                    </td>
+                    <td class="px-6 py-4 flex gap-3">
+                        <a href="{{ path('app_answer_edit', {'id': answer.id}) }}" class="w-fit items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300">Éditer</a>
+
+                        <form method="post" action="{{ path('app_answer_delete', {'id': answer.id}) }}" style="display: inline-block">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ answer.id) }}">
+                            <button class="w-fit bg-red-100 items-center rounded-md px-4 py-2 font-medium text-red-900 ring-1 ring-inset ring-red-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

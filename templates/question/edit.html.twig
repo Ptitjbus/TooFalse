@@ -3,11 +3,14 @@
 {% block title %}Edit Question{% endblock %}
 
 {% block body %}
-    <h1>Edit Question</h1>
-
-    {{ include('question/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_question_index') }}">back to list</a>
-
-    {{ include('question/_delete_form.html.twig') }}
+    <div class="flex items-end w-full justify-between px-5 lg:px-40 my-5">
+        <h1 class="text-2xl">Edit Question</h1>
+        <div class="flex gap-3">
+            <a href="{{ path('app_question_index') }}" class="w-fit items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300">back to list</a>
+            {{ include('question/_delete_form.html.twig') }}
+        </div>
+    </div>
+    <div class="px-5 lg:px-40">
+        {{ include('question/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
 {% endblock %}

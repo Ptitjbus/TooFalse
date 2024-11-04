@@ -3,9 +3,11 @@
 {% block title %}New Answer{% endblock %}
 
 {% block body %}
-    <h1>Create new Answer</h1>
-
-    {{ include('answer/_form.html.twig') }}
-
-    <a href="{{ path('app_answer_index') }}">back to list</a>
+    <div class="flex items-end w-full justify-between px-5 lg:px-40 my-5">
+        <h1 class="text-2xl">Create new Answer</h1>
+        <a href="{{ path('app_answer_index') }}" class="w-fit items-center rounded-md px-4 py-2 font-medium text-black ring-1 ring-inset ring-gray-300">back to list</a>
+    </div>
+    <div class="px-5 lg:px-40">
+        {{ include('answer/_form.html.twig') }}
+    </div>
 {% endblock %}

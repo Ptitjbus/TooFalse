@@ -14,6 +14,55 @@
         {% endblock %}
     </head>
     <body>
+        <nav id="header" class="w-full z-30 top-0 text-white bg-red-500 px-5">
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+                <div class="pl-4 flex items-center">
+                    <a class="toggleColour text-white no-underline hover:no-underline flex gap-2 font-bold text-2xl lg:text-4xl" href="{{ path('app_home') }}">
+                        <!--Icon from: http://www.potlabicons.com/ -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24"><path fill="currentColor" d="m12 13.4l2.9 2.9q.275.275.7.275t.7-.275t.275-.7t-.275-.7L13.4 12l2.9-2.9q.275-.275.275-.7t-.275-.7t-.7-.275t-.7.275L12 10.6L9.1 7.7q-.275-.275-.7-.275t-.7.275t-.275.7t.275.7l2.9 2.9l-2.9 2.9q-.275.275-.275.7t.275.7t.7.275t.7-.275zm0 8.6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8"/></svg>
+                        TOO FALSE
+                    </a>
+                </div>
+                <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto mt-2 lg:mt-0 bg-red-500 lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
+                    <ul class="list-reset lg:flex justify-end flex-1 items-center">
+                        {% if app.request.attributes.get('_route') != 'app_category_index' and app.user %}
+                            <li class="mr-3">
+                                <a class="inline-block py-2 px-4 text-white font-bold no-underline" href="{{ path('app_category_index') }}">
+                                    Toutes les categories
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <div class="flex flex-col gap-3 lg:flex-row items-center">
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_admin') }}"
+                               class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                            >
+                                Admin
+                            </a>
+                        {% endif %}
+                        {% if app.user %}
+                            <a href="{{ path('app_category_index') }}"
+                               class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                            >
+                                Jouer
+                            </a>
+                            <a href="{{ path('app_logout') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#fff" d="M6 2h9a2 2 0 0 1 2 2v2h-2V4H6v16h9v-2h2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2"/><path fill="#fff" d="M16.09 15.59L17.5 17l5-5l-5-5l-1.41 1.41L18.67 11H9v2h9.67z"/></svg>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}"
+                               class="mx-auto lg:mx-0 bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+                            >
+                                Se connecter
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>
